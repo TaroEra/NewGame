@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
+	//先ほど作成したJoystick
+	[SerializeField]
+	private Joystick _joystick = null;
+
 	public float speed;
 	public Text countText;
 	public Text winText;
@@ -16,7 +20,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		rb = GetComponent<Rigidbody> ();
 		count = 0;
-		setCountText ();
+		SetCountText ();
 		winText.text = "";
 	}
 
@@ -27,7 +31,9 @@ public class PlayerController : MonoBehaviour {
 
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 
-		rb.AddForce (movement * speed);
+		movement = new Vector3 (_joystick.Position.x * speed, 0.0f, _joystick.Position.y * speed);
+
+		rb.velocity = movement;
 	}
 
 	void OnTriggerEnter(Collider other) 
@@ -35,11 +41,11 @@ public class PlayerController : MonoBehaviour {
 		if (other.gameObject.CompareTag ("Pick Up")) {
 			other.gameObject.SetActive (false);
 			count = count + 1;
-			setCountText ();
+			SetCountText ();
 		}
 	}
 
-	void setCountText()
+	void SetCountText()
 	{
 		countText.text = "Count: " + count.ToString ();
 
@@ -47,4 +53,43 @@ public class PlayerController : MonoBehaviour {
 			winText.text = "You Win!";
 		}
 	}
+
+	private Vector3 touchStartPos;
+//	private Vector3 touchEndPos;
+//
+//	void Flick()
+//	{
+//		if(Input.GetKeyDown(KeyCode.Mouse0)){
+//			touchStartPos = new Vector3 (
+//				Input.mousePosition.x,
+//				Input.mousePosition.y,
+//				Input.mousePosition.z
+//			);
+//		}
+//
+//		if (Input.GetKeyUp (KeyCode.Mouse0)) {
+//			touchEndPos = new Vector3 (
+//				Input.mousePosition.x,
+//				Input.mousePosition.y,
+//				Input.mousePosition.z
+//			);
+//			GetDirection ();
+//		}
+//	}
+//
+//	void GetDirection()
+//	{
+//		float directionX = touchEndPos.x - touchStartPos.x;
+//		float directionY = touchEndPos.y - touchStartPos.y;
+//
+//		if (Mathf.Abs (directionY) < Mathf.Abs (directionX)) {
+//			if (30 < directionX) {
+//				//右フリック
+//				Direction = "right";
+//			} else if (-30 > directionX) {
+//				//左フリック
+//				Direction = "left";
+//			}
+//		}
+//	}
 }

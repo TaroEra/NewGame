@@ -44,3 +44,8 @@
 /Users/CryptonMac/Desktop/NewGame/Temp/bin/Debug/Assembly-CSharp.dll
 /Users/CryptonMac/Desktop/NewGame/obj/Debug/Assembly-CSharp.dll
 /Users/CryptonMac/Desktop/NewGame/obj/Debug/Assembly-CSharp.dll.mdb
+/Users/CryptonMac/Desktop/NewGame/Temp/bin/Debug/UnityEditor.iOS.Extensions.dll
+/Users/CryptonMac/Desktop/NewGame/Temp/bin/Debug/UnityEditor.iOS.Extensions.Common.dll
+/Users/CryptonMac/Desktop/NewGame/Temp/bin/Debug/UnityEditor.iOS.Extensions.Common.dll.mdb
+/Users/CryptonMac/Desktop/NewGame/Temp/bin/Debug/Assembly-CSharp-firstpass.dll
+/Users/CryptonMac/Desktop/NewGame/Temp/bin/Debug/Assembly-CSharp-firstpass.dll.mdb
