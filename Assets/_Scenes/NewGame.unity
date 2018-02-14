@@ -1649,7 +1649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 372c5c90916d3441d91decd7ba31edce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _joystick: {fileID: 0}
+  _joystick: {fileID: 866560087}
   speed: 10
   countText: {fileID: 2079388092}
   winText: {fileID: 1195632714}
