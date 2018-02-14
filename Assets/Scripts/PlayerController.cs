@@ -34,6 +34,11 @@ public class PlayerController : MonoBehaviour {
 		movement = new Vector3 (_joystick.Position.x * speed, 0.0f, _joystick.Position.y * speed);
 
 		rb.velocity = movement;
+
+		//Direction of Caracter's face
+		if (_joystick.Position.x != 0 || _joystick.Position.y != 0) {
+			rb.rotation = Quaternion.LookRotation (transform.position + (Vector3.right * _joystick.Position.x) + (Vector3.forward * _joystick.Position.y) - transform.position);
+		}
 	}
 
 	void OnTriggerEnter(Collider other) 
