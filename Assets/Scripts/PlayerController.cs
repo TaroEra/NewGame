@@ -12,13 +12,11 @@ public class PlayerController : MonoBehaviour {
 	public Text winText;
 	private int count;
 
+    private bool jump = false;
+
 	//ジャンプ力
 	[SerializeField]
 	private float jumpPower = 10;
-
-	//先ほど作成したJoystick
-	[SerializeField]
-	private Joystick _joystick = null;
 
 	void Start()
 	{
@@ -48,27 +46,22 @@ public class PlayerController : MonoBehaviour {
 			transform.rotation = Quaternion.LookRotation (moveForward);
 		}
 
-		//Direction of Caracter's face
-//		var horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
-//		var vertical = CrossPlatformInputManager.GetAxis ("Vertical");
-//
-//		if (horizontal != 0 || vertical != 0) {
-//			//向き
-//			rb.rotation = Quaternion.LookRotation (transform.position + (Vector3.right * horizontal) + (Vector3.forward * vertical) - transform.position);
-//
-//			rb.velocity = new Vector3 (horizontal * speed, rb.velocity.y, vertical * speed);
-//		}
-
-//		ジャンプ
-		if ( CrossPlatformInputManager.GetButtonDown("Jump")) {
-//			rb.velocity = new Vector3 (_joystick.Position.x * speed, jumpPower, _joystick.Position.y * speed);
+        //ジャンプ
+		if (!jump && CrossPlatformInputManager.GetButtonDown("Jump")) {
 			rb.velocity = new Vector3(inputHorizontal * speed, jumpPower, inputVertical * speed);
+            jump = true;
 		} 
-
-
 	}
 
-	void OnTriggerEnter(Collider other) 
+    // 衝突した瞬間に呼ばれる  
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "Ground") {
+            jump = false;
+        }
+    }
+
+    void OnTriggerEnter(Collider other) 
 	{
 		if (other.gameObject.CompareTag ("Pick Up")) {
 			other.gameObject.SetActive (false);
@@ -86,42 +79,5 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	private Vector3 touchStartPos;
-//	private Vector3 touchEndPos;
-//
-//	void Flick()
-//	{
-//		if(Input.GetKeyDown(KeyCode.Mouse0)){
-//			touchStartPos = new Vector3 (
-//				Input.mousePosition.x,
-//				Input.mousePosition.y,
-//				Input.mousePosition.z
-//			);
-//		}
-//
-//		if (Input.GetKeyUp (KeyCode.Mouse0)) {
-//			touchEndPos = new Vector3 (
-//				Input.mousePosition.x,
-//				Input.mousePosition.y,
-//				Input.mousePosition.z
-//			);
-//			GetDirection ();
-//		}
-//	}
-//
-//	void GetDirection()
-//	{
-//		float directionX = touchEndPos.x - touchStartPos.x;
-//		float directionY = touchEndPos.y - touchStartPos.y;
-//
-//		if (Mathf.Abs (directionY) < Mathf.Abs (directionX)) {
-//			if (30 < directionX) {
-//				//右フリック
-//				Direction = "right";
-//			} else if (-30 > directionX) {
-//				//左フリック
-//				Direction = "left";
-//			}
-//		}
-//	}
+
 }
