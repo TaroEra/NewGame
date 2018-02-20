@@ -98,3 +98,5 @@
 /Users/CryptonMac/NewGame/Temp/bin/Debug/UnityEditor.iOS.Extensions.Xcode.xml
 /Users/CryptonMac/NewGame/Temp/bin/Debug/UnityEditor.iOS.Extensions.Common.dll
 /Users/CryptonMac/NewGame/Temp/bin/Debug/UnityEditor.iOS.Extensions.Common.dll.mdb
+/Users/CryptonMac/NewGame/Temp/bin/Debug/Assembly-CSharp-firstpass.dll
+/Users/CryptonMac/NewGame/Temp/bin/Debug/Assembly-CSharp-firstpass.dll.mdb
