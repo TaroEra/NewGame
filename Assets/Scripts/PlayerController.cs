@@ -18,12 +18,15 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField]
 	private float jumpPower = 10;
 
+    private Animator animator;
+
 	void Start()
 	{
 		rb = GetComponent<Rigidbody> ();
 		count = 0;
 		SetCountText ();
 		winText.text = "";
+        animator = GetComponent<Animator>();
 	}
 		
 	void FixedUpdate()
@@ -33,22 +36,39 @@ public class PlayerController : MonoBehaviour {
 		var inputHorizontal = CrossPlatformInputManager.GetAxisRaw("Horizontal");
 		var inputVertical = CrossPlatformInputManager.GetAxisRaw ("Vertical");
 
-		//カメラの方向から、x-z平面の単位のベクトルを取得
-		Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+        if (inputHorizontal > 0f || inputVertical > 0)
+        {
 
-		//入力値とカメラの向きから、移動方向を決定
-		Vector3 moveForward = cameraForward * inputVertical + Camera.main.transform.right * inputHorizontal;
+            animator.SetBool("Wait", false);
+            animator.SetBool("Run", true);
 
-		//移動方向にスピードを掛ける。ジャンプや落下がある場合は、別途Y軸方向の速度ベクトルを足す。
-		rb.velocity = moveForward * speed + new Vector3 (0, rb.velocity.y, 0);
+            //カメラの方向から、x-z平面の単位のベクトルを取得
+            Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
-		if (moveForward != Vector3.zero) {
-			transform.rotation = Quaternion.LookRotation (moveForward);
-		}
+            //入力値とカメラの向きから、移動方向を決定
+            Vector3 moveForward = cameraForward * inputVertical + Camera.main.transform.right * inputHorizontal;
+
+            //移動方向にスピードを掛ける。ジャンプや落下がある場合は、別途Y軸方向の速度ベクトルを足す。
+            rb.velocity = moveForward * speed + new Vector3(0, rb.velocity.y, 0);
+
+            if (moveForward != Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(moveForward);
+            }
+        }
+        else {
+            animator.SetBool("Wait", true);
+            animator.SetBool("Run", false);
+        }
 
         //ジャンプ
 		if (!jump && CrossPlatformInputManager.GetButtonDown("Jump")) {
-			rb.velocity = new Vector3(inputHorizontal * speed, jumpPower, inputVertical * speed);
+
+            animator.SetBool("Wait", false);
+            animator.SetBool("Run", false);
+            animator.SetBool("Jump", true);
+
+            rb.velocity = new Vector3(inputHorizontal * speed, jumpPower, inputVertical * speed);
             jump = true;
 		} 
 	}
@@ -58,6 +78,8 @@ public class PlayerController : MonoBehaviour {
     {
         if (collision.gameObject.name == "Ground") {
             jump = false;
+            animator.SetBool("Wait", true);
+            animator.SetBool("Jump", false);
         }
     }
 
